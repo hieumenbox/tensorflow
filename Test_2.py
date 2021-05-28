@@ -5,21 +5,17 @@ from flask import request
 from tensorflow import keras
 
 
-
 # Khởi tạo Flask Server Backend
 app = Flask(__name__)
-
+model = keras.models.load_model('Model2.h5')
 # Apply Flask CORS
 CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 
-
-
 @app.route('/predict', methods=['POST', 'GET'])
 @cross_origin(origin='*')
 def predict():
-    model = keras.models.load_model('Model2.h5')
     from sklearn.preprocessing import StandardScaler
     import numpy as np
     scaler = StandardScaler()
@@ -57,7 +53,7 @@ def predict():
     pred_value = scaler.inverse_transform(pred_value)
     pred_value = pred_value.mean()
     mae = abs(test_value_1 - pred_value)
-    print(test_value_1)      
+    print(test_value_1)
     return str(test_value_1) + "a" + str(pred_value) + "b" + str(mae) + "c"
 
 
